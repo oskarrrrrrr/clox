@@ -3,8 +3,8 @@
 
 #include "common.h"
 
-#define GROW_CAPACITY(capacity) \
-    ((capacity) < 8 ? 8 : (capacity) * 2)
+#define GROW_CAPACITY(defaultCapacity, capacity) \
+    ((capacity) < defaultCapacity ? defaultCapacity : (capacity) * 2)
 
 #define FREE_ARRAY(type, pointer, count) \
     reallocate(pointer, sizeof(type) * count, 0)
