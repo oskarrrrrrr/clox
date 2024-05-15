@@ -3,15 +3,18 @@
 #include "memory.h"
 #include "compiler.h"
 #include "value.h"
+#include "object.h"
 
 
 #include <stdio.h>
 #include <stdarg.h>
+#include <string.h>
 
 VM vm;
 
 static Value peek(int distance);
 static bool isFalsey(Value value);
+static void concatenate();
 
 static void resetStack() {
     int START_STACK_CAPACITY = 256;
@@ -35,9 +38,11 @@ static void runtimeError(const char* format, ...) {
 
 void initVM() {
     resetStack();
+    vm.objects = NULL;
 }
 
 void freeVM() {
+    freeObjects();
 }
 
 static InterpretResult run() {
@@ -96,7 +101,17 @@ static InterpretResult run() {
             }
             case OP_GREATER: BINARY_OP(BOOL_VAL, >); break;
             case OP_LESS: BINARY_OP(BOOL_VAL, <); break;
-            case OP_ADD: BINARY_OP(NUMBER_VAL, +); break;
+            case OP_ADD: {
+                if (IS_STRING(peek(0)) && IS_STRING(peek(1))) {
+                    concatenate();
+                } else if (IS_NUMBER(peek(0)) && IS_NUMBER(peek(1))) {
+                    BINARY_OP(NUMBER_VAL, +); break;
+                } else {
+                    runtimeError("Operands must be two numbers or two strings.");
+                    return INTERPRET_RUNTIME_ERROR;
+                }
+                break;
+            }
             case OP_SUBTRACT: BINARY_OP(NUMBER_VAL, -); break;
             case OP_MULTIPLY: BINARY_OP(NUMBER_VAL, *); break;
             case OP_DIVIDE: BINARY_OP(NUMBER_VAL, /); break;
@@ -153,4 +168,11 @@ static Value peek(int distance) {
 
 static bool isFalsey(Value value) {
     return IS_NIL(value) || (IS_BOOL(value) && !AS_BOOL(value));
+}
+
+static void concatenate() {
+    ObjString* b = AS_STRING(pop());
+    ObjString* a = AS_STRING(pop());
+    ObjString* result = concatenateStrings(a, b);
+    push(OBJ_VAL(result));
 }
