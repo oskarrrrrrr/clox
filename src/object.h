@@ -22,11 +22,11 @@ struct Obj {
 
 struct ObjString {
     Obj obj;
+    u32 hash;
     int length;
     char chars[];
 };
 
-ObjString* takeString(char* chars, int length);
 ObjString* copyString(const char* chars, int length);
 ObjString* concatenateStrings(ObjString* a, ObjString* b);
 void printObject(Value value);

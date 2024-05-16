@@ -2,6 +2,7 @@
 #define clox_vm_h
 
 #include "chunk.h"
+#include "table.h"
 
 typedef struct {
     Chunk* chunk;
@@ -11,6 +12,7 @@ typedef struct {
     Value* stackTop;
     int stackCapacity;
 
+    Table strings;
     Obj* objects;
 } VM;
 

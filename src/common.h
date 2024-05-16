@@ -8,7 +8,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-typedef uint8_t u8;
-typedef double f64;
+typedef uint8_t  u8;
+typedef uint32_t u32;
+typedef double   f64;
 
 #endif
