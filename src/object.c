@@ -88,3 +88,11 @@ void printObject(Value value) {
             break;
     }
 }
+
+void sprintObject(char* buffer, Value value) {
+    switch (OBJ_TYPE(value)) {
+        case OBJ_STRING:
+            sprintf(buffer, "%s", AS_CSTRING(value));
+            break;
+    }
+}

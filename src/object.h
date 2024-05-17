@@ -30,6 +30,7 @@ struct ObjString {
 ObjString* copyString(const char* chars, int length);
 ObjString* concatenateStrings(ObjString* a, ObjString* b);
 void printObject(Value value);
+void sprintObject(char* buffer, Value value);
 
 static inline bool isObjType(Value value, ObjType type) {
     return IS_OBJ(value) && OBJ_TYPE(value) == type;

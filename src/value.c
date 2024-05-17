@@ -45,3 +45,12 @@ void printValue(Value value) {
         case VAL_OBJ: printObject(value); break;
     }
 }
+
+void sprintValue(char* buffer, Value value) {
+    switch (value.type) {
+        case VAL_BOOL: sprintf(buffer, AS_BOOL(value) ? "true" : "false"); break;
+        case VAL_NIL: sprintf(buffer, "nil"); break;
+        case VAL_NUMBER: sprintf(buffer, "%g", AS_NUMBER(value)); break;
+        case VAL_OBJ: sprintObject(buffer, value); break;
+    }
+}

@@ -48,5 +48,6 @@ void initValueArray(ValueArray* array);
 void freeValueArray(ValueArray* array);
 void writeValueArray(ValueArray* array, Value value);
 void printValue(Value value);
+void sprintValue(char* buffer, Value value);
 
 #endif
